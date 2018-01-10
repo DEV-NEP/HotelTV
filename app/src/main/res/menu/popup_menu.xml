@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/chinese"
-        android:title="Chinese [CH]" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".mainactivity.MainActivity">
 
-    <item
-        android:id="@+id/english"
-        android:title="English [EN]" />
+            <item
+                android:id="@+id/chinese"
+                android:icon="@drawable/flag_china"
+                android:title="Chinese [CH]" />
 
-    <item
-        android:id="@+id/german"
-        android:title="German [GR]" />
+            <item
+                android:id="@+id/english"
+                android:icon="@drawable/flag_uk"
+                android:title="English [EN]" />
 
-    <item
-        android:id="@+id/japanese"
-        android:title="Japanese [JP]" />
+            <item
+                android:id="@+id/german"
+                android:icon="@drawable/flag_germany"
+                android:title="German [GR]" />
 
-    <item
-        android:id="@+id/nepali"
-        android:title="Nepali [NP]" />
+            <item
+                android:id="@+id/japanese"
+                android:icon="@drawable/flag_japan"
+                android:title="Japanese [JP]" />
 
+            <item
+                android:id="@+id/korean"
+                android:icon="@drawable/flag_korea"
+                android:title="Korean [KR]" />
 
 </menu>

@@ -23,7 +23,7 @@
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:visibility="gone"/>
     <LinearLayout
 
         android:layout_width="match_parent"
@@ -93,7 +93,8 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_toEndOf="@+id/day"
-                android:src="@drawable/refresh"
+                android:src="@drawable/reload"
+                android:padding="3dp"
                 android:layout_centerInParent="true"/>
             <ProgressBar
                 android:id="@+id/refreshProgress"
@@ -103,26 +104,43 @@
                 android:layout_centerInParent="true"
                 android:visibility="gone"/>
 
-            <com.facebook.login.widget.LoginButton
-                xmlns:facebook="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/login_button"
+            <Button
+                android:id="@+id/logoutBtn"
                 android:layout_width="90dp"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
+                android:text="Logout"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:textColor="@color/timeColor"
+                android:background="@drawable/fblogout_btn"
+                android:layout_gravity="center_horizontal"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                facebook:com_facebook_login_text="Log In"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp" />
 
         </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.5"
+            android:background="#99000000">
+        <com.facebook.login.widget.LoginButton
+            xmlns:facebook="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/login_button"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            facebook:com_facebook_login_text="Log In"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"/>
 
         <ListView
             android:id="@+id/list"
             android:layout_below="@+id/dayContainer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2.5"
-            android:background="#99000000"/>
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/frame2"
@@ -157,6 +175,17 @@
     </LinearLayout>
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/hotel_logo"
+        android:layout_width="130dp"
+        android:layout_height="80dp"
+        android:layout_alignStart="@+id/alarm"
+        android:layout_alignLeft="@+id/alarm"
+        android:layout_marginTop="39dp"
+        android:layout_marginStart="-5dp"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/apa_logo"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -164,13 +193,10 @@
         android:textSize="24sp"
         android:textColor="#ACA9A5"
         android:id="@+id/profileName"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="39dp"
         android:layout_marginStart="10dp"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
         android:layout_alignStart="@+id/alarm"
-        android:layout_alignLeft="@+id/alarm"
+        android:layout_below="@+id/hotel_logo"
         android:layout_marginEnd="40dp" />
     <TextClock
         android:id="@+id/digital_clock"
@@ -179,7 +205,7 @@
         android:textSize="40sp"
         android:textColor="#FFFFFF"
         android:layout_marginLeft="450dp"
-        android:layout_alignTop="@+id/profileName"
+        android:layout_alignTop="@+id/hotel_logo"
         android:layout_alignEnd="@+id/list_view"
         android:layout_alignRight="@+id/list_view"
         android:layout_marginStart="450dp" />
@@ -190,8 +216,8 @@
         android:textSize="16sp"
         android:textColor="@color/timeColor"
         android:paddingTop="1dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginRight="55dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
         android:layout_above="@+id/list_view"
         android:layout_alignEnd="@+id/list_view"
         android:layout_alignRight="@+id/list_view" />
@@ -292,16 +318,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"/>
     <!---->
-    <Button
-        android:id="@+id/logoutBtn"
-        android:layout_width="70dp"
-        android:layout_height="30dp"
-        android:text="Logout"
-        android:textStyle="bold"
-        android:textSize="12sp"
-        android:textColor="@color/timeColor"
-        android:background="@drawable/fblogout_btn"
-        android:layout_above="@+id/list_view"
-        android:layout_alignStart="@+id/profileName" />
 
 </RelativeLayout>
