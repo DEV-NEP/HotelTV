@@ -10,10 +10,13 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.PopupMenu;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,15 +41,13 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.newitventure.hoteltv.R;
-import com.newitventure.hoteltv.facebook.FBLoginActivity;
 import com.newitventure.hoteltv.facebook.FbParser;
 import com.newitventure.hoteltv.utils.GetData;
 import com.newitventure.hoteltv.utils.HttpHandler;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.lang.reflect.Field;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -165,10 +166,10 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
         text2.setText(DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(), DateUtils.FORMAT_ABBREV_ALL));
 
         text3 = findViewById(R.id.text3);
-        text3.setText(DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_WEEKDAY));
+        text3.setText((DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_WEEKDAY)) + ", ");
 
         wholeLayout = findViewById(R.id.whole_layout);
-        final int[] background_images = {R.drawable.bg_0, R.drawable.bg, R.drawable.bg_1, R.drawable.bg_2};
+        final int[] background_images = {R.drawable.bg_0, R.drawable.bg, R.drawable.bg_2};
 //        Runnable r = new Runnable(){
 //            int i = 0;
 //            public void run(){
@@ -184,8 +185,8 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
         new ChangeBackGround(background_images).start();
 
         //to add more items to tablayout add here:
-        int[] arr_drawable = {R.drawable.hotel_tv, R.drawable.room_service, R.drawable.travel_guide, R.drawable.call_taxi, R.drawable.my_bill, R.drawable.netflix, R.drawable.hulu, R.drawable.youtube, R.drawable.abema_tv, R.drawable.about_hotel};
-        String[] tabName = {"HOTEL TV", "ROOM SERVICE", "TRAVEL GUIDE", "CALL TAXI", "MY BILL", "NETFLIX", "HULU", "YOUTUBE", "ABEMA TV", "ABOUT HOTEL"};
+        int[] arr_drawable = {R.drawable.hotel_tv, R.drawable.room_service, R.drawable.travel_guide, R.drawable.call_taxi, R.drawable.my_bill, R.drawable.youtube, R.drawable.netflix, R.drawable.abema_tv, R.drawable.hulu, R.drawable.about_hotel, R.drawable.translate};
+        String[] tabName = {"HOTEL TV", "ROOM SERVICE", "TRAVEL GUIDE", "CALL TAXI", "MY BILL", "YOUTUBE", "NETFLIX", "ABEMA TV", "HULU", "ABOUT HOTEL", "TRANSLATE"};
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         int hei = getResources().getDisplayMetrics().heightPixels / 5;
@@ -197,7 +198,7 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
             View view = getLayoutInflater().inflate(R.layout.custom_tab, null);
 
             ImageView imageView = view.findViewById(R.id.pics);
-            imageView.getLayoutParams().width = (int) (getResources().getDisplayMetrics().widthPixels / 6.8);
+            imageView.getLayoutParams().width = (int) (getResources().getDisplayMetrics().widthPixels / 6);
 
             imageView.setImageResource(arr_drawable[i]);
             TextView tabTitle = view.findViewById(R.id.txt);
@@ -209,7 +210,7 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
 
         RelativeLayout layoutFeed = findViewById(R.id.list_view);
         params = (RelativeLayout.LayoutParams) layoutFeed.getLayoutParams();
-        params.height = (int) (getResources().getDisplayMetrics().heightPixels / 2.5);
+        params.height = (int) (getResources().getDisplayMetrics().heightPixels / 2.2);
         layoutFeed.setLayoutParams(params);
 
         refreshBtn.setOnClickListener(new View.OnClickListener() {
@@ -225,6 +226,7 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
         final LinearLayout linearLayout = findViewById(R.id.linearLayout);
         linearLayout.setClickable(true);
         linearLayout.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
 
@@ -232,9 +234,18 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
                     case R.id.language:
                     case R.id.flag:
                     case R.id.linearLayout:
+
                         @SuppressLint("RestrictedApi") Context context = new ContextThemeWrapper(MainActivity.this, R.style.CustomPopupTheme);
                         PopupMenu popupMenu = new PopupMenu(context, linearLayout);
                         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+                        try {
+                            Field mFieldPopup=popupMenu.getClass().getDeclaredField("mPopup");
+                            mFieldPopup.setAccessible(true);
+                            MenuPopupHelper mPopup = (MenuPopupHelper) mFieldPopup.get(popupMenu);
+                            mPopup.setForceShowIcon(true);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         popupMenu.show();
 
                         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -287,9 +298,49 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 Log.d(TAG, "onTabSelected: " + tab.getPosition());
+                View view = tab.getCustomView();
+                TextView tabTitle = view.findViewById(R.id.txt);
+                tabTitle.setTextColor(getResources().getColor(R.color.white));
                 switch (tab.getPosition()) {
                     case 0:
-                        startWorldTVGoApp("com.worldtvgo");
+                        startAppActivity("com.worldtvgo");
+                        break;
+
+                    case 1:
+                        break;
+
+                    case 2:
+                        break;
+
+                    case 3:
+                        break;
+
+                    case 4:
+                        break;
+
+                    case 5:
+                        startAppActivity("com.google.android.youtube");
+                        break;
+
+                    case 6:
+                        startAppActivity("com.netflix.mediaclient");
+                        break;
+
+                    case 7:
+                        startAppActivity("tv.abema");
+                        break;
+                        
+                    case 8:
+                        startAppActivity("com.hulu.plus");
+                        break;
+
+                    case 9:
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apahotel.com/ja_en/about/"));
+                        startActivity(browserIntent);
+                        break;
+
+                    case 10:
+                        startAppActivity("com.google.android.apps.translate");
                         break;
 
                     default:
@@ -299,7 +350,11 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabUnselected: ");
 
+                View view = tab.getCustomView();
+                TextView tabTitle = view.findViewById(R.id.txt);
+                tabTitle.setTextColor(getResources().getColor(R.color.textColor));
             }
 
             @Override
@@ -307,7 +362,44 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
                 Log.d(TAG, "onTabReselected: ");
                 switch (tab.getPosition()) {
                     case 0:
-                        startWorldTVGoApp("com.worldtvgo");
+                        startAppActivity("com.worldtvgo");
+                        break;
+
+                    case 1:
+                        break;
+
+                    case 2:
+                        break;
+
+                    case 3:
+                        break;
+
+                    case 4:
+                        break;
+
+                    case 5:
+                        startAppActivity("com.google.android.youtube");
+                        break;
+
+                    case 6:
+                        startAppActivity("com.netflix.mediaclient");
+                        break;
+
+                    case 7:
+                        startAppActivity("tv.abema");
+                        break;
+
+                    case 8:
+                        startAppActivity("com.hulu.plus");
+                        break;
+
+                    case 9:
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apahotel.com/ja_en/about/"));
+                        startActivity(browserIntent);
+                        break;
+
+                    case 10:
+                        startAppActivity("com.google.android.apps.translate");
                         break;
 
                     default:
@@ -346,7 +438,7 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
                 profileName = newProfile.getFirstName();
                 Log.d(TAG, "onCurrentProfileChanged: ===> "+profileName);
                 access_token = AccessToken.getCurrentAccessToken().getToken();
-                fbUserName.setText(getResources().getString(R.string.welcome_vinay) + newProfile.getFirstName().toUpperCase() + ",");
+                fbUserName.setText("Welcome " + newProfile.getFirstName().toUpperCase() + ",");
             }
 
         };
@@ -370,6 +462,7 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
 
                 /*At first login, profile returns "null" and app crashes. So this is handled by following if-else statement*/
                 if (profile == null) {
+                    Log.d(TAG, "onSuccess: profilr null");
                     profileTracker = new ProfileTracker() {
                         @Override
                         protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
@@ -377,7 +470,7 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
                             Profile.setCurrentProfile(newProfile);
                             profileName = newProfile.getFirstName();
                             access_token = accessToken.getToken();
-//                            fbUserName.setText("Welcome " + profileName.toUpperCase() + ",");
+                            fbUserName.setText("Welcome " + profileName.toUpperCase() + ",");
                         }
 
                     };
@@ -466,10 +559,10 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
         }
     }
 
-    public void startWorldTVGoApp(String packageName) {
+    public void startAppActivity(String packageName) {
         Intent intent = getPackageManager().getLaunchIntentForPackage(packageName);
         if (intent == null) {
-            // Bring user to the market or let them choose an app?
+            // Redirect user to the play store or let them choose an app?
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=" + packageName));
         }
@@ -496,7 +589,7 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
         int[] imgList;
         int i = 0;
 
-        public ChangeBackGround(int[] imgList) {
+        ChangeBackGround(int[] imgList) {
             this.imgList = imgList;
         }
 
@@ -516,7 +609,7 @@ public class MainActivity extends Activity implements MainApiInterface.MainDataV
                 );
 
                 i++;
-                if (i > imgList.length - 1)
+                if (i >= imgList.length - 1)
                     i = 0;
                 try {
                     sleep(8000);

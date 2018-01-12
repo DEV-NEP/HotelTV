@@ -9,7 +9,7 @@
     </style>
 
     <style name="TabLayout" parent="android:Widget">
-        <!--<item name="tabMinWidth">220dp</item>-->
+        <!--<item name="tabMinWidth">193dp</item>-->
         <item name="tabIndicatorHeight">0dp</item>
         <item name="tabBackground">@drawable/tab_background</item>
         <item name="tabSelectedTextColor">#FFF</item>

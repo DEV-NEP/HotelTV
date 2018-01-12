@@ -6,27 +6,27 @@
 
             <item
                 android:id="@+id/chinese"
-                android:icon="@drawable/flag_china"
-                android:title="Chinese [CH]" />
+                android:title="Chinese [CH]"
+                android:icon="@drawable/flag_china"/>
 
             <item
                 android:id="@+id/english"
                 android:icon="@drawable/flag_uk"
-                android:title="English [EN]" />
+                android:title="English [EN]"/>
 
             <item
                 android:id="@+id/german"
                 android:icon="@drawable/flag_germany"
-                android:title="German [GR]" />
+                android:title="German [GR]"/>
 
             <item
                 android:id="@+id/japanese"
                 android:icon="@drawable/flag_japan"
-                android:title="Japanese [JP]" />
+                android:title="Japanese [JP]"/>
 
             <item
                 android:id="@+id/korean"
                 android:icon="@drawable/flag_korea"
-                android:title="Korean [KR]" />
+                android:title="Korean [KR]"/>
 
 </menu>
